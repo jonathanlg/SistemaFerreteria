@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="TotalVentaArticulo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="07ddb718-8fd8-4512-908a-6c40ab60caf7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fDesde" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fHasta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+SUM(detalle_factura.df_total) as tot,
+articulo.art_codigo as cod
+FROM
+articulo
+INNER JOIN detalle_factura ON detalle_factura.df_articulo = articulo.art_codigo
+INNER JOIN factura ON detalle_factura.fac_codigo = factura.fac_codigo
+WHERE
+factura.fac_fecha BETWEEN $P{fDesde} AND $P{fHasta}]]>
+	</queryString>
+	<field name="tot" class="java.lang.Double"/>
+	<field name="cod" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnFooter>
+		<band height="38" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement uuid="0f64ae21-5579-4d7c-971c-ba9ec7185de2" x="147" y="4" width="382" height="34"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="d0bbabf9-22df-4357-8a70-631e1af52cbc" x="411" y="10" width="100" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{tot}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="9bc809c3-1e76-46fb-bae1-6c8562f9018f" x="161" y="10" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" isBold="true"/>
+				</textElement>
+				<text><![CDATA[TOTAL]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="ae9de15f-7209-4303-828e-daa5bb57c88d" x="6" y="1" width="523" height="1"/>
+			</line>
+		</band>
+	</columnFooter>
+</jasperReport>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="RubroArticulo" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="f7192089-e323-4eab-bd80-794c8ffe0b7c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Proyectos\\Java\\Desktop\\ReportesFerreteria\\ArticulosXRubro\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT * FROM rubro WHERE rub_indicador = 'S']]>
+	</queryString>
+	<field name="rub_codigo" class="java.lang.Integer"/>
+	<field name="rub_nombre" class="java.lang.String"/>
+	<field name="rub_indicador" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4a68988b-f1d6-4134-82d6-0f201e4187fa" x="13" y="62" width="529" height="25"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Listado de Artículos por Rubro]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6bdbe65d-b7cf-440e-ac5c-ea3644154805" x="64" y="0" width="430" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="50" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Valois & Plásticos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="2" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="2" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="169" splitType="Stretch">
+			<rectangle radius="10">
+				<reportElement uuid="3a41d725-0a4b-4c4f-b3be-b72b8eefea71" x="0" y="0" width="179" height="27"/>
+			</rectangle>
+			<textField>
+				<reportElement uuid="1ea4dd73-ff25-414e-80fb-8cda263a3f8c" x="31" y="4" width="100" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{rub_nombre}]]></textFieldExpression>
+			</textField>
+			<subreport>
+				<reportElement uuid="808a7760-02ce-492c-bef0-11079b775f63" x="0" y="27" width="555" height="142"/>
+				<subreportParameter name="rubigo">
+					<subreportParameterExpression><![CDATA[$F{rub_codigo}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ArticuloRubro.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

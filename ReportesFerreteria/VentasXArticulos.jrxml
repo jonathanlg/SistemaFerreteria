@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="VentasXArticulos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9afbf52f-af28-4bc1-9376-e805698c75a6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="33"/>
+	<parameter name="fDesde" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fHasta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["D:\\Proyectos\\Java\\Desktop\\ReportesFerreteria\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+COUNT(detalle_factura.df_cantidad) as cant,
+SUM(detalle_factura.df_total) as tot,
+articulo.art_codigo as cod,
+articulo.art_descripcion as nom
+FROM
+articulo
+INNER JOIN detalle_factura ON detalle_factura.df_articulo = articulo.art_codigo
+INNER JOIN factura ON detalle_factura.fac_codigo = factura.fac_codigo
+WHERE
+articulo.art_codigo = detalle_factura.df_articulo AND
+factura.fac_fecha >= $P{fDesde} AND factura.fac_fecha <= $P{fHasta}
+GROUP BY
+articulo.art_codigo]]>
+	</queryString>
+	<field name="cant" class="java.lang.Long"/>
+	<field name="tot" class="java.lang.Double"/>
+	<field name="cod" class="java.lang.Integer"/>
+	<field name="nom" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="4a68988b-f1d6-4134-82d6-0f201e4187fa" x="10" y="62" width="532" height="25"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="18" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Artículo vendidos entre fechas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="6bdbe65d-b7cf-440e-ac5c-ea3644154805" x="61" y="0" width="430" height="62"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Times New Roman" size="50" isBold="true" pdfFontName="Times-Roman"/>
+				</textElement>
+				<text><![CDATA[Valois & Plásticos]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="29" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="c54bb415-4e6a-41f6-a703-05737d0f4c99" x="16" y="8" width="41" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1ca8adfd-c3d5-424b-9550-f9b254e7f274" x="74" y="8" width="304" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Artículo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="32cb6be6-2dcd-4ad8-bcd5-6e17e8c514b9" x="398" y="8" width="66" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cant.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e047c75d-242a-47fb-bc31-023b3b558bf1" x="477" y="8" width="65" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="181b4f93-3ba2-434e-923f-c935ef0357f1" x="0" y="28" width="555" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="42e68eb2-bb28-4660-b48d-ffb803adf2b4" x="16" y="0" width="41" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="86fc9af2-d31e-404b-a1a9-4fda965e5034" x="74" y="0" width="304" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{nom}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8ef6df59-785f-4e18-9ca1-ac31ee5818c0" x="398" y="0" width="66" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{cant}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="69b6f33f-81d2-4f3d-9bbc-818de14479a1" x="477" y="0" width="65" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{tot}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="148" splitType="Stretch">
+			<subreport>
+				<reportElement uuid="8072c6e7-70c6-4902-9608-31ff78e18d65" x="1" y="0" width="554" height="148"/>
+				<subreportParameter name="fDesde">
+					<subreportParameterExpression><![CDATA[$P{fDesde}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="fHasta">
+					<subreportParameterExpression><![CDATA[$P{fHasta}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\Users\\Jonathan\\Documents\\NetBeansProjects\\SistemaFerreteria\\Reportes\\Facturas\\TotalVentaArticulo.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="64" splitType="Stretch">
+			<frame>
+				<reportElement uuid="a334eb6e-67aa-4023-aedc-2107ba7ae435" mode="Opaque" x="-21" y="0" width="597" height="24" forecolor="#000000" backcolor="#CCCCCC"/>
+				<textField evaluationTime="Report">
+					<reportElement uuid="a5c2e14b-a54d-4652-ae74-ada1332d2dd3" x="533" y="0" width="40" height="20" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="53f15083-b113-4313-b810-a12208fb53bd" x="453" y="0" width="80" height="20" forecolor="#000000"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement uuid="e9d34d61-dba0-403a-a10f-a23e54f5f22d" x="22" y="1" width="197" height="20" forecolor="#000000"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="50"/>
+	</summary>
+</jasperReport>

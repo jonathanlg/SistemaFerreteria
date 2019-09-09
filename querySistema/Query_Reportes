@@ -1,0 +1,70 @@
+﻿/*Reporte Articulos*/
+SELECT a.art_codigo AS Cod, 
+a.art_descripcion AS Descripcion, 
+r.rub_nombre AS Rubro, 
+a.art_efectivo AS Precio, 
+a.art_stock AS Stock 
+FROM articulo a, rubro r 
+WHERE a.art_rubro = r.rub_codigo 
+ORDER BY a.art_codigo
+
+/*Listar Clientes*/
+SELECT
+     c.cli_codigo AS cod,
+     c.cli_razonsocial AS razon,
+     c.cli_ruc AS RUC,
+     c.cli_telefono AS telfono,
+     c.cli_fax AS fax
+FROM
+     clientes c
+     
+/*Proveedores*/
+SELECT p.pro_codigo AS cod, 
+p.pro_razonsocial AS razon, 
+p.pro_celular AS celular, 
+p.pro_telefono AS telefono, 
+p.pro_fax AS fax 
+FROM proveedor p
+
+/*Facturas*/
+SELECT  f.fac_codigo AS Nro, f.fac_fecha AS Fecha, f.fac_tipopago AS tipopago, v.ven_nombre AS vend, 
+c.cli_razonsocial AS razon, c.cli_ruc AS RUC, c.cli_descuento AS desCli, 
+c.cli_telefono AS telef, d.df_cantidad AS cant, 
+a.art_descripcion AS articulo, d.df_precarticulo AS precio, 
+d.df_total AS moonto, f.fac_descuento AS descu, 
+f.fac_total AS total, f.fac_neto AS neto  
+FROM  detalle_factura d, clientes c, articulo a, factura f, vendedor v
+WHERE f.fac_codigo = d.df_codigo 
+AND d.df_articulo = a.art_codigo 
+AND f.fac_cliente = c.cli_codigo
+AND f.fac_vendedor = v.ven_codigo 
+AND f.fac_codigo = 7
+
+/*Presupuestos*/
+SELECT p.pre_codigo AS Nro, p.pre_fecha AS fecha, p.pre_tipopago AS tipopago, v.ven_nombre AS vend, 
+c.cli_razonsocial AS razon, c.cli_ruc AS RUC, c.cli_descuento AS desCli, 
+c.cli_telefono AS telef, d.dp_cantidad AS cant, 
+a.art_descripcion AS articulo, d.dp_precarticulo AS precio, 
+d.dp_total AS moonto, p.pre_descuento AS descu, 
+p.pre_total AS total 
+FROM presupuesto p, vendedor v, clientes c, detalle_presupuesto d, articulo a
+WHERE p.pre_codigo = d.dp_presupuesto 
+AND d.dp_articulo = a.art_codigo 
+AND p.pre_cliente = c.cli_codigo 
+AND p.pre_vendedor = v.ven_codigo
+AND p.pre_codigo = 2
+
+/*Notas de Credito*/
+SELECT n.nc_codigo AS Nro, n.nc_fecha AS fecha, n.nc_factura as factura, 
+c.cli_razonsocial AS razon, c.cli_ruc AS RUC, c.cli_descuento AS desCli, 
+c.cli_telefono AS telef, d.dn_cantidad AS cant, 
+a.art_descripcion AS articulo, d.dn_precarticulo AS precio, 
+d.dn_total AS moonto, n.nc_descuendo AS descu, 
+n.nc_total AS total 
+FROM notacredito n, clientes c, detallenotacredito d, articulo a 
+WHERE n.nc_codigo = d.dn_codigo 
+AND d.dn_articulo = a.art_codigo 
+AND n.nc_cliente = c.cli_codigo 
+AND n.nc_codigo = 1
+
+select * from notacredito 

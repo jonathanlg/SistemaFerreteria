@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ArticuloRubro" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6c2ca136-ccc4-4109-a494-c8103b5153ea">
+	<property name="ireport.zoom" value="2.1961500000000007"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="rubigo" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+rubro.rub_nombre AS rub,
+articulo.art_codigo AS cod,
+articulo.art_descripcion AS descr,
+marca.mar_nombre AS mar,
+articulo.art_stock AS st,
+articulo.art_efectivo AS pre
+FROM
+articulo
+INNER JOIN rubro ON articulo.art_rubro = rubro.rub_codigo
+INNER JOIN marca ON articulo.art_marca = marca.mar_codigo
+WHERE
+articulo.art_rubro = $P{rubigo}]]>
+	</queryString>
+	<field name="rub" class="java.lang.String"/>
+	<field name="cod" class="java.lang.Integer"/>
+	<field name="descr" class="java.lang.String"/>
+	<field name="mar" class="java.lang.String"/>
+	<field name="st" class="java.lang.Integer"/>
+	<field name="pre" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="1" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="f5408374-5600-48be-8838-49aea97cc760" x="38" y="0" width="255" height="20"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="1e3cd30b-43f8-4c3a-baf5-3576f739140e" x="304" y="0" width="95" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Marca]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3264cf6b-318c-4b7a-973f-5080e33adce7" x="410" y="0" width="59" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Stock]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="22c9767a-2950-4eb4-81b2-6596c51d8b48" x="482" y="0" width="73" height="20"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Precio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="34d110d1-89be-4d05-bbd1-d0d30a01f92d" x="0" y="1" width="27" height="19"/>
+				<textElement>
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Cod.]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<textField>
+				<reportElement uuid="d86c4327-6944-4857-8c93-53a19803a60d" x="0" y="0" width="27" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cod}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="ccf8242a-4332-426a-a80b-ecf2f712fae1" x="38" y="0" width="255" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{descr}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="15d36fed-3555-4d88-8d7d-f09b7161c1ed" x="304" y="0" width="95" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{mar}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="e196ebc4-5d4d-4241-9bb3-22d4a1307ebf" x="410" y="0" width="59" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{st}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="501955c2-99f9-46b3-80d2-4aec7172d701" x="482" y="0" width="73" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{pre}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

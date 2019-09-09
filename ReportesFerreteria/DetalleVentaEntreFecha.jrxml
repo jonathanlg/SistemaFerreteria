@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="DetalleVentaEntreFecha" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9b70d9e6-87db-48ea-8fbf-c83d3fe00d34">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="fDesde" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fHasta" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+factura.fac_fecha,
+factura.fac_codigo,
+clientes.cli_razonsocial,
+factura.fac_neto,
+factura.fac_total
+FROM
+factura
+INNER JOIN clientes ON factura.fac_cliente = clientes.cli_codigo
+WHERE fac_fecha >= $P{fDesde} AND fac_fecha <= $P{fHasta}]]>
+	</queryString>
+	<field name="fac_fecha" class="java.sql.Date"/>
+	<field name="fac_codigo" class="java.lang.Integer"/>
+	<field name="cli_razonsocial" class="java.lang.String"/>
+	<field name="fac_neto" class="java.math.BigDecimal"/>
+	<field name="fac_total" class="java.math.BigDecimal"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="9bd0bae2-5b52-4b94-9a60-fcf1872999a6" x="0" y="0" width="45" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Factura]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="49ecc4d1-7cb4-4b83-9da5-d5b160321886" x="60" y="0" width="316" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="28095ba2-3a93-45d3-9a06-4c6185e6da01" x="388" y="0" width="63" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Neto]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="7f9b1999-243b-4e32-be4d-0eb38dc74beb" x="470" y="0" width="68" height="20"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="c15e396d-bb4b-4ee9-aea1-3a9bbd4c9283" x="0" y="21" width="538" height="1"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement uuid="14543ce7-3815-489b-bc65-3ae5531d0a08" x="0" y="0" width="45" height="20"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{fac_codigo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="38a4567b-b626-4a8d-ac40-bed970b59180" x="60" y="0" width="316" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{cli_razonsocial}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="89707257-44b2-4799-a44b-5311ea7e4023" x="388" y="0" width="63" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fac_neto}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f98c0c8e-5b99-4c4f-b1c6-39fbc239b8d0" x="470" y="0" width="68" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{fac_total}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

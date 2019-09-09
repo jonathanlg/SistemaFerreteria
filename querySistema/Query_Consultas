@@ -1,0 +1,161 @@
+﻿/*Consultas SQL*/
+
+/*Listar Articulos*/
+SELECT 
+a.art_codigo, a.art_descripcion, 
+m.mar_nombre, p.pro_razonSocial, 
+a.art_efectivo, a.art_montoCalculado, 
+a.art_tarjeta, a.art_costo, 
+a.art_fechaCompra, u.uni_nombre, 
+r.rub_nombre, a.art_stock, s.sto_cantidad 
+FROM 
+articulo a, marca m, proveedor p, rubro r, unidad u, stock s 
+WHERE 
+a.art_rubro = r.rub_codigo 
+AND a.art_marca = m.mar_codigo 
+AND a.art_unidad = u.uni_codigo 
+AND a.art_proveedor = p.pro_codigo 
+AND a.art_codigo = s.sto_articulo 
+AND a.art_indicador = 'S' ORDER BY a.art_codigo
+
+
+/*Listar Clientes*/
+SELECT 
+c.cli_codigo, c.cli_razonSocial, 
+c.cli_contacto, v.ven_nombre, 
+c.cli_telefono, c.cli_celular, 
+c.cli_fax, r.rub_nombre, c.cli_ruc, 
+c.cli_limiteCuenta, c.cli_direccion, 
+c.cli_email, c.cli_web, t.tra_nombre, 
+p.prv_nombre 
+FROM clientes c, rubro r, vendedor v, transporte t, provincias p 
+WHERE 
+c.cli_rubro = r.rub_codigo 
+AND c.cli_provincia = p.prv_codigo 
+AND c.cli_transporte = t.tra_codigo 
+AND c.cli_vendedor = v.ven_codigo 
+AND c.cli_indicador='S' 
+ORDER BY c.cli_codigo
+
+/*Listar Proveedores*/
+SELECT p.pro_codigo, p.pro_razonSocial, p.pro_contacto, 
+p.pro_celular, p.pro_telefono, p.pro_fax, p.pro_direccion, 
+pr.prv_nombre, p.pro_email, p.pro_web, p.pro_observacion 
+FROM proveedor p, provincias pr 
+WHERE p.pro_indicador='S' 
+AND p.pro_provincia = pr.prv_codigo 
+ORDER BY p.pro_codigo
+
+/*Listar Vendedores*/
+SELECT v.ven_codigo, v.ven_nombre, v.ven_direccion, 
+v.ven_telefono, v.ven_celular, v.ven_sueldo, 
+p.prv_nombre, z.zon_nombre, v.ven_comision 
+FROM vendedor v, provincias p, zona z 
+WHERE v.ven_provincia = p.prv_codigo 
+AND v.ven_indicador='S' 
+AND v.ven_zona = z.zon_codigo ORDER BY v.ven_codigo
+
+/*Vendedores sin usuario*/
+SELECT ven_codigo, ven_nombre, ven_observacion 
+FROM vendedor 
+WHERE NOT EXISTS (SELECT usu_codigo FROM usuario where vendedor.ven_codigo = usuario.usu_codigo)
+
+/*Listar Usuarios*/
+SELECT * FROM usuario WHERE usu_indicador='S'
+
+/*Listar Accesos*/
+SELECT * FROM accesos
+
+
+/*Listar Compras*/
+SELECT c.com_codigo, c.com_fecha, p.pro_razonSocial, p.pro_codigo, c.com_total 
+from compras c, proveedor p 
+WHERE c.com_proveedor = p.pro_codigo 
+AND c.com_indicador = 'S'
+
+/*Listar detalle de compras*/
+SELECT 
+d.dc_cantidad, a.art_codigo, a.art_descripcion, d.dc_precio, d.dc_monto 
+FROM compras c, detalle_compras d, articulo a 
+WHERE c.com_codigo = d.dc_compra 
+AND d.dc_articulo = a.art_codigo 
+AND c.com_codigo = 2
+
+/*Listar Facturas*/
+SELECT f.fac_codigo, c.cli_razonSocial, f.fac_fecha, c.cli_codigo, f.fac_descuento, f.fac_total, v.ven_codigo 
+FROM factura f, clientes c, vendedor v 
+WHERE f.fac_cliente = c.cli_codigo 
+AND f.fac_vendedor = v.ven_codigo 
+AND f.fac_indicador='S'
+
+/*Listar Detalle_Facturas*/
+SELECT df.df_cantidad, df.df_codigo, a.art_descripcion, u.uni_nombre, df.df_precArticulo, df.df_total 
+FROM detalle_factura df, articulo a, unidad u, factura f 
+WHERE f.fac_codigo = df.df_codigo 
+AND df.df_articulo = a.art_codigo 
+AND a.art_unidad = u.uni_codigo 
+AND f.fac_codigo = 2
+
+/*Listar Notas de Credito*/
+SELECT n.nc_codigo, n.nc_fecha, c.cli_razonSocial, 
+n.nc_cliente, n.nc_total, n.nc_descuendo, n.nc_factura  
+FROM notacredito n, clientes c
+WHERE n.nc_codigo = c.cli_codigo 
+AND n.nc_indicador = 'S'
+
+/*Listar Detalle de Notas de Credito*/
+SELECT dn.dn_cantidad, a.art_codigo, a.art_descripcion, dn.dn_precArticulo, dn.dn_total 
+FROM detallenotacredito dn, articulo a, notacredito nt 
+WHERE nt.nc_codigo = dn.dn_codigo 
+AND dn.dn_articulo = a.art_codigo 
+AND nt.nc_codigo = 1
+
+/*Listar Presupuestos*/
+SELECT p.pre_codigo, p.pre_fecha, c.cli_razonSocial, c.cli_codigo, p.pre_descuento, p.pre_total 
+FROM presupuesto p, clientes c 
+WHERE p.pre_cliente = c.cli_codigo 
+AND 
+NOT EXISTS (SELECT * FROM presupuesto WHERE pre_indicador='N')
+
+/*Listar Detalle de Presupuesto*/
+SELECT dp.dp_cantidad, a.art_codigo, a.art_descripcion, dp.dp_precArticulo, dp.dp_total 
+FROM detalle_presupuesto dp, articulo a, presupuesto p 
+WHERE p.pre_codigo = dp.dp_presupuesto 
+AND dp.dp_articulo = a.art_codigo 
+AND p.pre_codigo = 2
+
+/*Listar Salidas*/
+SELECT * FROM salidas WHERE sal_indicador = 'S'
+
+/*Listar Detalle de Salidas*/
+SELECT m.mot_nombre, ds.ds_cantidad, ds.ds_salida, a.art_descripcion, ds.ds_precio 
+FROM motivo m, detalle_salida ds, articulo a 
+WHERE m.mot_codigo = ds.ds_motivo 
+AND a.art_codigo = ds.ds_articulo 
+AND ds.ds_salida = 2
+
+/*Listar Ventas para comisiones*/
+SELECT f.fac_fecha, f.fac_codigo, c.cli_razonSocial, f.fac_total, v.ven_comision, (f.fac_total/100 * v.ven_comision) 
+FROM factura f, clientes c, vendedor v 
+WHERE f.fac_cliente = c.cli_codigo 
+AND f.fac_vendedor = v.ven_codigo 
+AND f.fac_vendedor = 5
+
+/*Comisiones - Buscar Empleados Area Venta*/
+SELECT * FROM usuario WHERE usu_perfil='Venta' AND usu_indicador='S'
+
+/*Cantidad de Factuas por Fecha*/
+select COUNT(*) from factura where fac_fecha = ''
+
+/*Total de Facturas por Fecha*/
+select SUM(fac_total) from factura where fac_fecha = ''
+
+/*Facturas para notas de credito*/
+SELECT f.fac_codigo, c.cli_razonSocial, f.fac_fecha, c.cli_codigo, 
+f.fac_descuento,f.fac_total, v.ven_codigo 
+FROM factura f, clientes c, vendedor v 
+WHERE f.fac_cliente = c.cli_codigo 
+AND f.fac_vendedor = v.ven_codigo 
+AND f.fac_indicador='S'AND 
+NOT EXISTS (SELECT fac_codigo FROM  notacredito WHERE f.fac_codigo = notacredito.nc_factura)
+
