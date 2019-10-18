@@ -1,10 +1,10 @@
 # Sistema de Ferreteria en Java
 
-> **Note:** Este repositorio es publico y son libres de modificarlos y/o subir sus cambios.
+> **Note:** Este repositorio es público y son libres de modificarlos y/o subir sus cambios.
 
 ## Información
 El sistema cuenta con los siguientes modulos.
-- Articulos.
+- Artículos.
 - Clientes.
 - Proveedores.
 - Empleados.
@@ -18,9 +18,9 @@ El sistema cuenta con los siguientes modulos.
 - Reportes.
 
 ## Instalación
-Pasos a seguir para la instalacion del sistema.
+Pasos a seguir para la instalación del sistema.
 - Importar la base de datos "bd_ferreteria.sql" ubicada en la raiz del proyecto.
-- Descargar las librerias desde el siguiente link: [Librerias](http://adf.ly/tuoKd).
-- Importar las librerias.
+- Descargar las librerías desde el siguiente link: [Librerias](http://adf.ly/tuoKd).
+- Importar las librerías.
 - Ejecutar el programa
 - Ingresar con siguientes credenciales: usuario: jlopez - contraseña: jotha123
